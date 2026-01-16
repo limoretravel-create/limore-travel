@@ -8,7 +8,7 @@ import { adaptPackage, Package } from '../utils/adapters';
 
 const Hero: React.FC = () => {
   const { t } = useTranslation();
-  
+
   // Ksamil beach images
   const images = [
     'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1920&q=80',
@@ -19,7 +19,6 @@ const Hero: React.FC = () => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [tours, setTours] = useState<Package[]>([]);
-  const [loading, setLoading] = useState(true);
 
   // Fetch tours for slides 2 and 3
   useEffect(() => {
@@ -31,8 +30,6 @@ const Hero: React.FC = () => {
       } catch (error) {
         console.error('Error fetching tours:', error);
         setTours([]);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -138,17 +135,7 @@ const Hero: React.FC = () => {
     },
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        ease: [0.6, -0.05, 0.01, 0.99],
-        duration: 0.6,
-      },
-    },
-  };
+
 
   return (
     <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden">
@@ -158,7 +145,7 @@ const Hero: React.FC = () => {
           <motion.div
             key={index}
             initial={{ opacity: 0 }}
-            animate={{ 
+            animate={{
               opacity: index === currentIndex ? 1 : 0,
               scale: index === currentIndex ? 1 : 1.05
             }}
@@ -202,11 +189,10 @@ const Hero: React.FC = () => {
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`h-2 rounded-full transition-all ${
-              index === currentIndex
-                ? 'w-8 bg-white'
-                : 'w-2 bg-white/50 hover:bg-white/75'
-            }`}
+            className={`h-2 rounded-full transition-all ${index === currentIndex
+              ? 'w-8 bg-white'
+              : 'w-2 bg-white/50 hover:bg-white/75'
+              }`}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}
@@ -220,7 +206,7 @@ const Hero: React.FC = () => {
           className="text-center max-w-4xl mx-auto"
         >
           <AnimatePresence mode="wait">
-            <motion.div 
+            <motion.div
               key={`badge-${currentIndex}`}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -231,64 +217,64 @@ const Hero: React.FC = () => {
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full border border-white/30">
                 <MapPin size={20} className="text-accent" />
                 <span className="text-sm font-medium text-accent-blue">{slideContent.badge}</span>
-            </div>
-          </motion.div>
+              </div>
+            </motion.div>
           </AnimatePresence>
 
           <AnimatePresence mode="wait">
-          <motion.h1
+            <motion.h1
               key={`title-${currentIndex}`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.6 }}
               className="text-5xl md:text-7xl font-bold text-white mb-6 drop-shadow-lg"
-          >
+            >
               {slideContent.title}
-          </motion.h1>
+            </motion.h1>
           </AnimatePresence>
 
           <AnimatePresence mode="wait">
-          <motion.p
+            <motion.p
               key={`subtitle-${currentIndex}`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-xl md:text-2xl text-white/90 mb-8 drop-shadow-md line-clamp-2 max-w-3xl mx-auto"
-          >
+            >
               {slideContent.subtitle}
-          </motion.p>
+            </motion.p>
           </AnimatePresence>
 
           <AnimatePresence mode="wait">
-          <motion.div
+            <motion.div
               key={`cta-${currentIndex}`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-          >
+            >
               {(currentIndex === 1 || currentIndex === 2) && slideContent.price && (
                 <div className="text-3xl font-bold text-white drop-shadow-lg mb-2 sm:mb-0">
                   ${slideContent.price}
                 </div>
               )}
-            <Link
+              <Link
                 to={slideContent.primaryLink}
                 className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent text-white rounded-lg hover:opacity-90 transition-all transform hover:scale-105"
-            >
+              >
                 <span className="font-medium">{slideContent.primaryCta}</span>
-              <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-            </Link>
-            <Link
+                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link
                 to={slideContent.secondaryLink}
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/90 backdrop-blur-sm text-accent-blue border-2 border-white/30 rounded-lg hover:bg-white transition-all font-medium"
-            >
+              >
                 <span>{slideContent.secondaryCta}</span>
-            </Link>
-          </motion.div>
+              </Link>
+            </motion.div>
           </AnimatePresence>
         </motion.div>
       </div>

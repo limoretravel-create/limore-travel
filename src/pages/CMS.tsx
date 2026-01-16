@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Plus, Edit, Trash2, Save, X, Package as PackageIcon, Car, 
+import {
+  Plus, Edit, Trash2, Save, X, Package as PackageIcon, Car,
   Image, DollarSign, Users, Clock, MapPin, Fuel, Settings2,
-  ChevronDown, Check, AlertCircle
+  Check, AlertCircle
 } from 'lucide-react';
 import { packagesService, carsService } from '../services/database';
 import { supabase, Database } from '../lib/supabase';
@@ -17,7 +16,7 @@ type CarInsert = Database['public']['Tables']['cars']['Insert'];
 type Tab = 'packages' | 'cars';
 
 const CMS: React.FC = () => {
-  const { t } = useTranslation();
+
   const [activeTab, setActiveTab] = useState<Tab>('packages');
   const [packages, setPackages] = useState<PackageRow[]>([]);
   const [cars, setCars] = useState<CarRow[]>([]);
@@ -25,7 +24,7 @@ const CMS: React.FC = () => {
   const [saving, setSaving] = useState(false);
   const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
-  
+
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingPackage, setEditingPackage] = useState<Partial<PackageRow> | null>(null);
@@ -61,7 +60,7 @@ const CMS: React.FC = () => {
   const [newFeature, setNewFeature] = useState('');
 
   useEffect(() => {
-      fetchAll();
+    fetchAll();
   }, []);
 
   useEffect(() => {
@@ -119,7 +118,7 @@ const CMS: React.FC = () => {
       return publicUrl;
     } finally {
       setUploadingImage(false);
-  }
+    }
   };
 
   const handlePackageImageFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -130,7 +129,7 @@ const CMS: React.FC = () => {
     if (url) {
       setPackageForm((prev) => ({ ...prev, image_url: url }));
       showNotification('success', 'Image uploaded for package');
-  }
+    }
   };
 
   const handleCarImageFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -150,14 +149,14 @@ const CMS: React.FC = () => {
       setIsEditing(true);
       setEditingPackage(pkg);
       setPackageForm({
-      title: pkg.title,
+        title: pkg.title,
         destination: pkg.destination,
         duration: pkg.duration,
         price: pkg.price,
         image_url: pkg.image_url,
         description: pkg.description,
         max_travelers: pkg.max_travelers,
-      status: pkg.status,
+        status: pkg.status,
       });
     } else {
       setIsEditing(false);
@@ -218,7 +217,7 @@ const CMS: React.FC = () => {
     if (!confirm('Are you sure you want to delete this package?')) return;
 
     try {
-        await packagesService.delete(id);
+      await packagesService.delete(id);
       showNotification('success', 'Package deleted successfully');
       await fetchAll();
     } catch (error) {
@@ -284,7 +283,7 @@ const CMS: React.FC = () => {
         features: carForm.features || [],
         status: carForm.status || 'draft',
       };
-      
+
       if (isEditing && editingCar?.id) {
         await carsService.update(editingCar.id, carData);
         showNotification('success', 'Car updated successfully');
@@ -349,11 +348,10 @@ const CMS: React.FC = () => {
               initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -50 }}
-              className={`fixed top-20 right-4 z-50 px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 ${
-                notification.type === 'success'
-                  ? 'bg-green-500 text-white'
-                  : 'bg-red-500 text-white'
-              }`}
+              className={`fixed top-20 right-4 z-50 px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 ${notification.type === 'success'
+                ? 'bg-green-500 text-white'
+                : 'bg-red-500 text-white'
+                }`}
             >
               {notification.type === 'success' ? <Check size={20} /> : <AlertCircle size={20} />}
               {notification.message}
@@ -383,27 +381,25 @@ const CMS: React.FC = () => {
           <div className="flex gap-1 mb-6 bg-secondary/50 p-1 rounded-lg w-fit">
             <button
               onClick={() => setActiveTab('packages')}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-md font-medium transition-all ${
-                activeTab === 'packages'
-                  ? 'bg-white text-accent shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-              >
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-md font-medium transition-all ${activeTab === 'packages'
+                ? 'bg-white text-accent shadow-sm'
+                : 'text-gray-600 hover:text-gray-900'
+                }`}
+            >
               <PackageIcon size={18} />
               Packages ({packages.length})
             </button>
-              <button
+            <button
               onClick={() => setActiveTab('cars')}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-md font-medium transition-all ${
-                activeTab === 'cars'
-                  ? 'bg-white text-accent shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-md font-medium transition-all ${activeTab === 'cars'
+                ? 'bg-white text-accent shadow-sm'
+                : 'text-gray-600 hover:text-gray-900'
+                }`}
             >
               <Car size={18} />
               Cars ({cars.length})
-              </button>
-            </div>
+            </button>
+          </div>
 
           {/* Content */}
           {loading ? (
@@ -433,7 +429,7 @@ const CMS: React.FC = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow"
-                    >
+                      >
                         <div className="flex flex-col md:flex-row">
                           {/* Image */}
                           <div className="md:w-48 h-32 md:h-auto bg-gray-100 flex-shrink-0">
@@ -443,25 +439,24 @@ const CMS: React.FC = () => {
                                 alt={pkg.title}
                                 className="w-full h-full object-cover"
                               />
-                          ) : (
+                            ) : (
                               <div className="w-full h-full flex items-center justify-center">
                                 <Image size={32} className="text-gray-300" />
                               </div>
                             )}
-                        </div>
-                          
+                          </div>
+
                           {/* Content */}
                           <div className="flex-grow p-4 md:p-5">
                             <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                               <div>
                                 <div className="flex items-center gap-2 mb-1">
                                   <h3 className="text-lg font-semibold text-gray-900">{pkg.title}</h3>
-                        <span
-                                    className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                                      pkg.status === 'published'
-                                        ? 'bg-green-100 text-green-700'
-                                        : 'bg-yellow-100 text-yellow-700'
-                                    }`}
+                                  <span
+                                    className={`px-2 py-0.5 rounded-full text-xs font-medium ${pkg.status === 'published'
+                                      ? 'bg-green-100 text-green-700'
+                                      : 'bg-yellow-100 text-yellow-700'
+                                      }`}
                                   >
                                     {pkg.status}
                                   </span>
@@ -482,29 +477,29 @@ const CMS: React.FC = () => {
                                   <span className="flex items-center gap-1 font-medium text-accent">
                                     <DollarSign size={14} />
                                     ${pkg.price}
-                        </span>
+                                  </span>
                                 </div>
                                 {pkg.description && (
                                   <p className="mt-2 text-sm text-gray-600 line-clamp-2">{pkg.description}</p>
                                 )}
                               </div>
-                              
+
                               {/* Actions */}
                               <div className="flex gap-2 flex-shrink-0">
-                              <button
+                                <button
                                   onClick={() => openPackageModal(pkg)}
                                   className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                                   title="Edit"
-                              >
+                                >
                                   <Edit size={18} />
-                              </button>
-                              <button
+                                </button>
+                                <button
                                   onClick={() => deletePackage(pkg.id)}
                                   className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                                   title="Delete"
-                              >
+                                >
                                   <Trash2 size={18} />
-                              </button>
+                                </button>
                               </div>
                             </div>
                           </div>
@@ -551,7 +546,7 @@ const CMS: React.FC = () => {
                               </div>
                             )}
                           </div>
-                          
+
                           {/* Content */}
                           <div className="flex-grow p-4 md:p-5">
                             <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
@@ -561,11 +556,10 @@ const CMS: React.FC = () => {
                                     {car.brand} {car.model}
                                   </h3>
                                   <span
-                                    className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                                      car.status === 'published'
-                                        ? 'bg-green-100 text-green-700'
-                                        : 'bg-yellow-100 text-yellow-700'
-                                    }`}
+                                    className={`px-2 py-0.5 rounded-full text-xs font-medium ${car.status === 'published'
+                                      ? 'bg-green-100 text-green-700'
+                                      : 'bg-yellow-100 text-yellow-700'
+                                      }`}
                                   >
                                     {car.status}
                                   </span>
@@ -606,23 +600,23 @@ const CMS: React.FC = () => {
                                   </div>
                                 )}
                               </div>
-                              
+
                               {/* Actions */}
                               <div className="flex gap-2 flex-shrink-0">
-                              <button
+                                <button
                                   onClick={() => openCarModal(car)}
                                   className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                                   title="Edit"
-                              >
-                                <Edit size={18} />
-                              </button>
-                              <button
+                                >
+                                  <Edit size={18} />
+                                </button>
+                                <button
                                   onClick={() => deleteCar(car.id)}
                                   className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                                   title="Delete"
-                              >
-                                <Trash2 size={18} />
-                              </button>
+                                >
+                                  <Trash2 size={18} />
+                                </button>
                               </div>
                             </div>
                           </div>
@@ -648,7 +642,7 @@ const CMS: React.FC = () => {
                 onClick={closeModal}
                 className="fixed inset-0 bg-black/50 z-40"
               />
-              
+
               {/* Modal Wrapper for centering */}
               <div className="fixed inset-0 z-50 overflow-y-auto">
                 <div className="flex min-h-full items-center justify-center p-4">
@@ -659,396 +653,396 @@ const CMS: React.FC = () => {
                     exit={{ opacity: 0, scale: 0.95, y: 20 }}
                     className="w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
                   >
-                {/* Modal Header */}
-                <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
-                  <h2 className="text-xl font-semibold text-gray-900">
-                    {isEditing ? 'Edit' : 'Add'} {activeTab === 'packages' ? 'Package' : 'Car'}
-                  </h2>
-                  <button
-                    onClick={closeModal}
-                    className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
-                  >
-                    <X size={20} />
-                  </button>
-                </div>
-
-                {/* Modal Body */}
-                <div className="flex-grow overflow-y-auto p-6">
-                  {activeTab === 'packages' ? (
-                    <div className="space-y-5">
-                      {/* Title */}
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Title <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          value={packageForm.title || ''}
-                          onChange={(e) => setPackageForm({ ...packageForm, title: e.target.value })}
-                          placeholder="e.g., Tropical Paradise Getaway"
-                          className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
-                        />
-                      </div>
-
-                      {/* Destination & Duration */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Destination <span className="text-red-500">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            value={packageForm.destination || ''}
-                            onChange={(e) => setPackageForm({ ...packageForm, destination: e.target.value })}
-                            placeholder="e.g., Maldives"
-                            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Duration
-                          </label>
-                          <input
-                            type="text"
-                            value={packageForm.duration || ''}
-                            onChange={(e) => setPackageForm({ ...packageForm, duration: e.target.value })}
-                            placeholder="e.g., 7 Days / 6 Nights"
-                            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
-                          />
-                        </div>
-                      </div>
-
-                      {/* Price & Max Travelers */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Price ($)
-                          </label>
-                          <input
-                            type="number"
-                            value={packageForm.price || 0}
-                            onChange={(e) => setPackageForm({ ...packageForm, price: Number(e.target.value) })}
-                            placeholder="0"
-                            min="0"
-                            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Max Travelers
-                          </label>
-                          <input
-                            type="number"
-                            value={packageForm.max_travelers || 1}
-                            onChange={(e) => setPackageForm({ ...packageForm, max_travelers: Number(e.target.value) })}
-                            min="1"
-                            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
-                          />
-                        </div>
-                      </div>
-
-                      {/* Image URL + Upload */}
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Image
-                        </label>
-                        <div className="flex flex-col md:flex-row gap-3 mb-2">
-                          <input
-                            type="url"
-                            value={packageForm.image_url || ''}
-                            onChange={(e) => setPackageForm({ ...packageForm, image_url: e.target.value })}
-                            placeholder="https://example.com/image.jpg"
-                            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
-                          />
-                          <div className="flex items-center gap-2">
-                            <label className="inline-flex items-center px-4 py-2.5 bg-gray-100 text-gray-700 rounded-lg border border-gray-300 cursor-pointer hover:bg-gray-200 transition-colors">
-                              <Image size={18} className="mr-2" />
-                              <span className="text-sm font-medium">
-                                {uploadingImage ? 'Uploading...' : 'Upload'}
-                              </span>
-                              <input
-                                type="file"
-                                accept="image/*"
-                                onChange={handlePackageImageFile}
-                                className="hidden"
-                              />
-                            </label>
-                          </div>
-                        </div>
-                        {packageForm.image_url && (
-                          <div className="mt-2 relative w-full h-32 bg-gray-100 rounded-lg overflow-hidden">
-                            <img
-                              src={packageForm.image_url}
-                              alt="Preview"
-                              className="w-full h-full object-cover"
-                              onError={(e) => {
-                                (e.target as HTMLImageElement).style.display = 'none';
-                              }}
-                            />
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Description */}
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Description
-                        </label>
-                        <textarea
-                          value={packageForm.description || ''}
-                          onChange={(e) => setPackageForm({ ...packageForm, description: e.target.value })}
-                          placeholder="Describe the package..."
-                          rows={4}
-                          className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent resize-none"
-                        />
-                      </div>
-
-                      {/* Status */}
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Status
-                        </label>
-                        <select
-                          value={packageForm.status || 'draft'}
-                          onChange={(e) => setPackageForm({ ...packageForm, status: e.target.value as 'published' | 'draft' })}
-                          className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
-                        >
-                          <option value="draft">Draft</option>
-                          <option value="published">Published</option>
-                        </select>
-                      </div>
+                    {/* Modal Header */}
+                    <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+                      <h2 className="text-xl font-semibold text-gray-900">
+                        {isEditing ? 'Edit' : 'Add'} {activeTab === 'packages' ? 'Package' : 'Car'}
+                      </h2>
+                      <button
+                        onClick={closeModal}
+                        className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                      >
+                        <X size={20} />
+                      </button>
                     </div>
-                  ) : (
-                    <div className="space-y-5">
-                      {/* Brand & Model */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Brand <span className="text-red-500">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            value={carForm.brand || ''}
-                            onChange={(e) => setCarForm({ ...carForm, brand: e.target.value })}
-                            placeholder="e.g., Toyota"
-                            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Model <span className="text-red-500">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            value={carForm.model || ''}
-                            onChange={(e) => setCarForm({ ...carForm, model: e.target.value })}
-                            placeholder="e.g., Camry"
-                            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
-                          />
-                        </div>
-                      </div>
 
-                      {/* Display Name */}
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Display Name (optional)
-                        </label>
-                        <input
-                          type="text"
-                          value={carForm.name || ''}
-                          onChange={(e) => setCarForm({ ...carForm, name: e.target.value })}
-                          placeholder="Leave empty to use Brand + Model"
-                          className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
-                        />
-                      </div>
-
-                      {/* Price, Seats, Fuel Type, Transmission */}
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Price/Day ($)
-                          </label>
-                          <input
-                            type="number"
-                            value={carForm.price_per_day || 0}
-                            onChange={(e) => setCarForm({ ...carForm, price_per_day: Number(e.target.value) })}
-                            min="0"
-                            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Seats
-                          </label>
-                          <input
-                            type="number"
-                            value={carForm.seats || 4}
-                            onChange={(e) => setCarForm({ ...carForm, seats: Number(e.target.value) })}
-                            min="1"
-                            max="12"
-                            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Fuel Type
-                          </label>
-                          <select
-                            value={carForm.fuel_type || 'Petrol'}
-                            onChange={(e) => setCarForm({ ...carForm, fuel_type: e.target.value })}
-                            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
-                          >
-                            <option value="Petrol">Petrol</option>
-                            <option value="Diesel">Diesel</option>
-                            <option value="Electric">Electric</option>
-                            <option value="Hybrid">Hybrid</option>
-                          </select>
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Transmission
-                          </label>
-                          <select
-                            value={carForm.transmission || 'Automatic'}
-                            onChange={(e) => setCarForm({ ...carForm, transmission: e.target.value })}
-                            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
-                          >
-                            <option value="Automatic">Automatic</option>
-                            <option value="Manual">Manual</option>
-                          </select>
-                        </div>
-                      </div>
-
-                      {/* Image URL + Upload */}
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Image
-                        </label>
-                        <div className="flex flex-col md:flex-row gap-3 mb-2">
-                          <input
-                            type="url"
-                            value={carForm.image_url || ''}
-                            onChange={(e) => setCarForm({ ...carForm, image_url: e.target.value })}
-                            placeholder="https://example.com/car-image.jpg"
-                            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
-                          />
-                          <div className="flex items-center gap-2">
-                            <label className="inline-flex items-center px-4 py-2.5 bg-gray-100 text-gray-700 rounded-lg border border-gray-300 cursor-pointer hover:bg-gray-200 transition-colors">
-                              <Image size={18} className="mr-2" />
-                              <span className="text-sm font-medium">
-                                {uploadingImage ? 'Uploading...' : 'Upload'}
-                              </span>
-                              <input
-                                type="file"
-                                accept="image/*"
-                                onChange={handleCarImageFile}
-                                className="hidden"
-                              />
+                    {/* Modal Body */}
+                    <div className="flex-grow overflow-y-auto p-6">
+                      {activeTab === 'packages' ? (
+                        <div className="space-y-5">
+                          {/* Title */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                              Title <span className="text-red-500">*</span>
                             </label>
-                          </div>
-                        </div>
-                        {carForm.image_url && (
-                          <div className="mt-2 relative w-full h-32 bg-gray-100 rounded-lg overflow-hidden">
-                            <img
-                              src={carForm.image_url}
-                              alt="Preview"
-                              className="w-full h-full object-cover"
-                              onError={(e) => {
-                                (e.target as HTMLImageElement).style.display = 'none';
-                              }}
+                            <input
+                              type="text"
+                              value={packageForm.title || ''}
+                              onChange={(e) => setPackageForm({ ...packageForm, title: e.target.value })}
+                              placeholder="e.g., Tropical Paradise Getaway"
+                              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
                             />
                           </div>
-                        )}
-                      </div>
 
-                      {/* Features */}
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Features
-                        </label>
-                        <div className="flex gap-2 mb-2">
-                          <input
-                            type="text"
-                            value={newFeature}
-                            onChange={(e) => setNewFeature(e.target.value)}
-                            onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addFeature())}
-                            placeholder="e.g., GPS Navigation"
-                            className="flex-grow px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
-                          />
-                          <button
-                            type="button"
-                            onClick={addFeature}
-                            className="px-4 py-2.5 bg-accent text-white rounded-lg hover:bg-accent/90 transition-colors"
-                          >
-                            <Plus size={20} />
-                          </button>
+                          {/* Destination & Duration */}
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Destination <span className="text-red-500">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                value={packageForm.destination || ''}
+                                onChange={(e) => setPackageForm({ ...packageForm, destination: e.target.value })}
+                                placeholder="e.g., Maldives"
+                                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Duration
+                              </label>
+                              <input
+                                type="text"
+                                value={packageForm.duration || ''}
+                                onChange={(e) => setPackageForm({ ...packageForm, duration: e.target.value })}
+                                placeholder="e.g., 7 Days / 6 Nights"
+                                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
+                              />
+                            </div>
+                          </div>
+
+                          {/* Price & Max Travelers */}
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Price ($)
+                              </label>
+                              <input
+                                type="number"
+                                value={packageForm.price || 0}
+                                onChange={(e) => setPackageForm({ ...packageForm, price: Number(e.target.value) })}
+                                placeholder="0"
+                                min="0"
+                                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Max Travelers
+                              </label>
+                              <input
+                                type="number"
+                                value={packageForm.max_travelers || 1}
+                                onChange={(e) => setPackageForm({ ...packageForm, max_travelers: Number(e.target.value) })}
+                                min="1"
+                                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
+                              />
+                            </div>
+                          </div>
+
+                          {/* Image URL + Upload */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                              Image
+                            </label>
+                            <div className="flex flex-col md:flex-row gap-3 mb-2">
+                              <input
+                                type="url"
+                                value={packageForm.image_url || ''}
+                                onChange={(e) => setPackageForm({ ...packageForm, image_url: e.target.value })}
+                                placeholder="https://example.com/image.jpg"
+                                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
+                              />
+                              <div className="flex items-center gap-2">
+                                <label className="inline-flex items-center px-4 py-2.5 bg-gray-100 text-gray-700 rounded-lg border border-gray-300 cursor-pointer hover:bg-gray-200 transition-colors">
+                                  <Image size={18} className="mr-2" />
+                                  <span className="text-sm font-medium">
+                                    {uploadingImage ? 'Uploading...' : 'Upload'}
+                                  </span>
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handlePackageImageFile}
+                                    className="hidden"
+                                  />
+                                </label>
+                              </div>
+                            </div>
+                            {packageForm.image_url && (
+                              <div className="mt-2 relative w-full h-32 bg-gray-100 rounded-lg overflow-hidden">
+                                <img
+                                  src={packageForm.image_url}
+                                  alt="Preview"
+                                  className="w-full h-full object-cover"
+                                  onError={(e) => {
+                                    (e.target as HTMLImageElement).style.display = 'none';
+                                  }}
+                                />
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Description */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                              Description
+                            </label>
+                            <textarea
+                              value={packageForm.description || ''}
+                              onChange={(e) => setPackageForm({ ...packageForm, description: e.target.value })}
+                              placeholder="Describe the package..."
+                              rows={4}
+                              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent resize-none"
+                            />
+                          </div>
+
+                          {/* Status */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                              Status
+                            </label>
+                            <select
+                              value={packageForm.status || 'draft'}
+                              onChange={(e) => setPackageForm({ ...packageForm, status: e.target.value as 'published' | 'draft' })}
+                              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
+                            >
+                              <option value="draft">Draft</option>
+                              <option value="published">Published</option>
+                            </select>
+                          </div>
                         </div>
-                        {carForm.features && carForm.features.length > 0 && (
-                          <div className="flex flex-wrap gap-2">
-                            {carForm.features.map((feature) => (
-                              <span
-                                key={feature}
-                                className="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
+                      ) : (
+                        <div className="space-y-5">
+                          {/* Brand & Model */}
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Brand <span className="text-red-500">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                value={carForm.brand || ''}
+                                onChange={(e) => setCarForm({ ...carForm, brand: e.target.value })}
+                                placeholder="e.g., Toyota"
+                                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Model <span className="text-red-500">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                value={carForm.model || ''}
+                                onChange={(e) => setCarForm({ ...carForm, model: e.target.value })}
+                                placeholder="e.g., Camry"
+                                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
+                              />
+                            </div>
+                          </div>
+
+                          {/* Display Name */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                              Display Name (optional)
+                            </label>
+                            <input
+                              type="text"
+                              value={carForm.name || ''}
+                              onChange={(e) => setCarForm({ ...carForm, name: e.target.value })}
+                              placeholder="Leave empty to use Brand + Model"
+                              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
+                            />
+                          </div>
+
+                          {/* Price, Seats, Fuel Type, Transmission */}
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Price/Day ($)
+                              </label>
+                              <input
+                                type="number"
+                                value={carForm.price_per_day || 0}
+                                onChange={(e) => setCarForm({ ...carForm, price_per_day: Number(e.target.value) })}
+                                min="0"
+                                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Seats
+                              </label>
+                              <input
+                                type="number"
+                                value={carForm.seats || 4}
+                                onChange={(e) => setCarForm({ ...carForm, seats: Number(e.target.value) })}
+                                min="1"
+                                max="12"
+                                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Fuel Type
+                              </label>
+                              <select
+                                value={carForm.fuel_type || 'Petrol'}
+                                onChange={(e) => setCarForm({ ...carForm, fuel_type: e.target.value })}
+                                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
                               >
-                                {feature}
-                                <button
-                                  type="button"
-                                  onClick={() => removeFeature(feature)}
-                                  className="text-gray-400 hover:text-red-500"
-                                >
-                                  <X size={14} />
-                                </button>
-                              </span>
-                            ))}
+                                <option value="Petrol">Petrol</option>
+                                <option value="Diesel">Diesel</option>
+                                <option value="Electric">Electric</option>
+                                <option value="Hybrid">Hybrid</option>
+                              </select>
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Transmission
+                              </label>
+                              <select
+                                value={carForm.transmission || 'Automatic'}
+                                onChange={(e) => setCarForm({ ...carForm, transmission: e.target.value })}
+                                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
+                              >
+                                <option value="Automatic">Automatic</option>
+                                <option value="Manual">Manual</option>
+                              </select>
+                            </div>
                           </div>
-                        )}
-                      </div>
 
-                      {/* Status */}
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Status
-                        </label>
-                        <select
-                          value={carForm.status || 'draft'}
-                          onChange={(e) => setCarForm({ ...carForm, status: e.target.value as 'published' | 'draft' })}
-                          className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
-                        >
-                          <option value="draft">Draft</option>
-                          <option value="published">Published</option>
-                        </select>
-                      </div>
+                          {/* Image URL + Upload */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                              Image
+                            </label>
+                            <div className="flex flex-col md:flex-row gap-3 mb-2">
+                              <input
+                                type="url"
+                                value={carForm.image_url || ''}
+                                onChange={(e) => setCarForm({ ...carForm, image_url: e.target.value })}
+                                placeholder="https://example.com/car-image.jpg"
+                                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
+                              />
+                              <div className="flex items-center gap-2">
+                                <label className="inline-flex items-center px-4 py-2.5 bg-gray-100 text-gray-700 rounded-lg border border-gray-300 cursor-pointer hover:bg-gray-200 transition-colors">
+                                  <Image size={18} className="mr-2" />
+                                  <span className="text-sm font-medium">
+                                    {uploadingImage ? 'Uploading...' : 'Upload'}
+                                  </span>
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleCarImageFile}
+                                    className="hidden"
+                                  />
+                                </label>
+                              </div>
+                            </div>
+                            {carForm.image_url && (
+                              <div className="mt-2 relative w-full h-32 bg-gray-100 rounded-lg overflow-hidden">
+                                <img
+                                  src={carForm.image_url}
+                                  alt="Preview"
+                                  className="w-full h-full object-cover"
+                                  onError={(e) => {
+                                    (e.target as HTMLImageElement).style.display = 'none';
+                                  }}
+                                />
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Features */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                              Features
+                            </label>
+                            <div className="flex gap-2 mb-2">
+                              <input
+                                type="text"
+                                value={newFeature}
+                                onChange={(e) => setNewFeature(e.target.value)}
+                                onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addFeature())}
+                                placeholder="e.g., GPS Navigation"
+                                className="flex-grow px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
+                              />
+                              <button
+                                type="button"
+                                onClick={addFeature}
+                                className="px-4 py-2.5 bg-accent text-white rounded-lg hover:bg-accent/90 transition-colors"
+                              >
+                                <Plus size={20} />
+                              </button>
+                            </div>
+                            {carForm.features && carForm.features.length > 0 && (
+                              <div className="flex flex-wrap gap-2">
+                                {carForm.features.map((feature) => (
+                                  <span
+                                    key={feature}
+                                    className="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
+                                  >
+                                    {feature}
+                                    <button
+                                      type="button"
+                                      onClick={() => removeFeature(feature)}
+                                      className="text-gray-400 hover:text-red-500"
+                                    >
+                                      <X size={14} />
+                                    </button>
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Status */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                              Status
+                            </label>
+                            <select
+                              value={carForm.status || 'draft'}
+                              onChange={(e) => setCarForm({ ...carForm, status: e.target.value as 'published' | 'draft' })}
+                              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent"
+                            >
+                              <option value="draft">Draft</option>
+                              <option value="published">Published</option>
+                            </select>
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
 
-                {/* Modal Footer */}
-                <div className="flex justify-end gap-3 px-6 py-4 border-t border-gray-200 bg-gray-50">
-                  <button
-                    onClick={closeModal}
-                    className="px-5 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={activeTab === 'packages' ? savePackage : saveCar}
-                    disabled={saving}
-                    className="px-5 py-2.5 bg-accent text-white rounded-lg hover:bg-accent/90 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-                  >
-                    {saving ? (
-                      <>
-                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                        Saving...
-                      </>
-                    ) : (
-                      <>
-                        <Save size={18} />
-                        {isEditing ? 'Update' : 'Create'}
-                      </>
-                    )}
-                  </button>
-                </div>
-              </motion.div>
+                    {/* Modal Footer */}
+                    <div className="flex justify-end gap-3 px-6 py-4 border-t border-gray-200 bg-gray-50">
+                      <button
+                        onClick={closeModal}
+                        className="px-5 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={activeTab === 'packages' ? savePackage : saveCar}
+                        disabled={saving}
+                        className="px-5 py-2.5 bg-accent text-white rounded-lg hover:bg-accent/90 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                      >
+                        {saving ? (
+                          <>
+                            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                            Saving...
+                          </>
+                        ) : (
+                          <>
+                            <Save size={18} />
+                            {isEditing ? 'Update' : 'Create'}
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </motion.div>
                 </div>
               </div>
             </>

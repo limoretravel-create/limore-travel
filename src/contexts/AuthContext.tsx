@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-import { User as SupabaseUser, Session } from '@supabase/supabase-js';
+import { Session } from '@supabase/supabase-js';
 
 interface User {
   id: string;
@@ -49,10 +49,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const setUserFromSession = async (session: Session) => {
     const supabaseUser = session.user;
-    
+
     // Get user metadata (name stored in user_metadata)
     const name = supabaseUser.user_metadata?.name || supabaseUser.user_metadata?.full_name || supabaseUser.email?.split('@')[0] || 'User';
-    
+
     setUser({
       id: supabaseUser.id,
       email: supabaseUser.email || '',

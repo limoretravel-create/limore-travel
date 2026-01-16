@@ -1,11 +1,11 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+
 import { motion } from 'framer-motion';
 import { AnimatedSection, MaskedText } from '../components/AnimatedSection';
 import { Globe, Heart, Award, Users } from 'lucide-react';
 
 const About: React.FC = () => {
-  const { t } = useTranslation();
+
 
   const values = [
     {
