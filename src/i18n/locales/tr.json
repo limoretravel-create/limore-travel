@@ -1,0 +1,67 @@
+{
+  "nav": {
+    "home": "Ana Sayfa",
+    "packages": "Tur Paketleri",
+    "cars": "Araç Kirala",
+    "about": "Hakkımızda",
+    "contact": "İletişim",
+    "login": "Giriş Yap",
+    "register": "Kayıt Ol",
+    "logout": "Çıkış Yap",
+    "dashboard": "Panel",
+    "cms": "İçerik Yönetimi"
+  },
+  "hero": {
+    "title": "Harika Destinasyonları Keşfedin",
+    "subtitle": "Yolculuğunuz Limore Travel ile burada başlar",
+    "cta": "Paketleri Keşfet",
+    "cta2": "Araçları Görüntüle"
+  },
+  "packages": {
+    "title": "Tur Paketleri",
+    "subtitle": "Özenle seçilmiş destinasyonlarımızı keşfedin",
+    "viewDetails": "Detayları Görüntüle",
+    "bookNow": "Şimdi Rezerve Et"
+  },
+  "cars": {
+    "title": "Araç Kirala",
+    "subtitle": "Premium filomuzdan seçim yapın",
+    "rentNow": "Şimdi Kirala",
+    "features": "Özellikler",
+    "pricePerDay": "günlük"
+  },
+  "contact": {
+    "title": "İletişim",
+    "subtitle": "Ekibimizle iletişime geçin",
+    "name": "Ad",
+    "email": "E-posta",
+    "message": "Mesaj",
+    "send": "Mesaj Gönder",
+    "success": "Mesaj başarıyla gönderildi!",
+    "error": "Mesaj gönderilemedi. Lütfen tekrar deneyin."
+  },
+  "search": {
+    "placeholder": "Paket, araç, destinasyon ara...",
+    "noResults": "Sonuç bulunamadı"
+  },
+  "auth": {
+    "login": "Giriş Yap",
+    "register": "Kayıt Ol",
+    "email": "E-posta",
+    "password": "Şifre",
+    "confirmPassword": "Şifreyi Onayla",
+    "forgotPassword": "Şifremi Unuttum?",
+    "noAccount": "Hesabınız yok mu?",
+    "hasAccount": "Zaten hesabınız var mı?",
+    "signIn": "Giriş Yap",
+    "signUp": "Kayıt Ol"
+  },
+  "footer": {
+    "description": "Unutulmaz yolculuklar için güvenilir seyahat ortağınız",
+    "quickLinks": "Hızlı Bağlantılar",
+    "contact": "İletişim",
+    "followUs": "Bizi Takip Edin",
+    "rights": "Tüm hakları saklıdır"
+  }
+}
+

@@ -1,0 +1,67 @@
+{
+  "nav": {
+    "home": "Home",
+    "packages": "Albania Tours",
+    "cars": "Rent a Car",
+    "about": "About Us",
+    "contact": "Contact",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "dashboard": "Dashboard",
+    "cms": "CMS"
+  },
+  "hero": {
+    "title": "Discover Beautiful Albania",
+    "subtitle": "Your Albanian adventure starts here with Limore Travel",
+    "cta": "Explore Albania Tours",
+    "cta2": "View Cars"
+  },
+  "packages": {
+    "title": "Albania Tour Packages",
+    "subtitle": "Explore the stunning destinations of Albania",
+    "viewDetails": "View Details",
+    "bookNow": "Book Now"
+  },
+  "cars": {
+    "title": "Rent a Car in Albania",
+    "subtitle": "Explore Albania at your own pace",
+    "rentNow": "Rent Now",
+    "features": "Features",
+    "pricePerDay": "per day"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Get in touch with our team",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "send": "Send Message",
+    "success": "Message sent successfully!",
+    "error": "Failed to send message. Please try again."
+  },
+  "search": {
+    "placeholder": "Search Albania tours, cars, destinations...",
+    "noResults": "No results found"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot Password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "signIn": "Sign In",
+    "signUp": "Sign Up"
+  },
+  "footer": {
+    "description": "Your trusted travel partner for unforgettable Albanian adventures",
+    "quickLinks": "Quick Links",
+    "contact": "Contact",
+    "followUs": "Follow Us",
+    "rights": "All rights reserved"
+  }
+}
+
